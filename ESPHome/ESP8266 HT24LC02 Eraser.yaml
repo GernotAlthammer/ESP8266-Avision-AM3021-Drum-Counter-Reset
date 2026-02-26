@@ -1,0 +1,46 @@
+### Example code for ESP8266 D1 mini
+#
+esphome:
+  name: eeprom_eraser
+  platform: ESP8266
+  board: d1_mini
+
+i2c:
+  sda: GPIO4 # SDA/D2 Software Serial
+  scl: GPIO5 # SCL/D1 Sofware Serial
+  scan: true
+  id: i2c_bus
+
+logger:
+
+button:
+  - platform: template
+    name: "Erase HT24LC02 EEPROM"
+    id: erase_eeprom
+  - platform: template
+    name: "Erase HT24LC02"
+    id: erase_eeprom
+    on_press:
+      then:
+        - lambda: |-
+            const uint8_t EEPROM_ADDR = 0x50;
+            uint8_t buf[9];  // 1 byte address + 8 bytes data
+
+            ESP_LOGI("eeprom", "Starting EEPROM erase...");
+
+            for (int addr = 0; addr < 256; addr += 8) {
+              buf[0] = addr;        // memory address
+              for (int i = 1; i < 9; i++) buf[i] = 0x00;  // page data
+
+              auto err = id(i2c_bus).write(EEPROM_ADDR, buf, sizeof(buf));
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "Write failed at 0x%02X (err=%d)", addr, err);
+              } else {
+                ESP_LOGI("eeprom", "Erased page at 0x%02X", addr);
+              }
+
+              delay(6);  // write cycle time
+            }
+
+            ESP_LOGI("eeprom", "EEPROM erase complete!");
+
