@@ -1,7 +1,7 @@
 # ESP8266 Avision AM3021 Drum-Counter Reset
 Drum-Counter Reset for Avision AM3021 Laser Printer with ESP8266 ESPHome 
 
-With der ESPHome code for ES8266 the EEPROM chip HT24LC02 of the Drum-Unit can be re-programmed.
+With der YAML code in <a href="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/tree/main/ESPHome" rel="nofollow">ESPHome</a> code for ES8266 the EEPROM chip HT24LC02 of the Drum-Unit can be re-programmed.
 This sets the counter back to the state of health level of 100%.
 
 Required hardware:
@@ -11,8 +11,12 @@ Required hardware:
 Required software:
 - ESPHome
 
+<img src="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/blob/main/Pictures/ESP8266 HT24LC02 Wire Diagram.jpg" style="width: 50%;">
+
 Note: I have
 - soldered the wires for 3.3V/VCC and GND/VSS driectly to the chip pins (VSS Pin 4, VCC Pin 8).
-- plugged the wires for SCL and SDA into the golden metal contact springs 
+- plugged the wires into the golden metal contact springs TP3 for SDA and TP4 for SCL 
+
+<img src="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/blob/main/Pictures/Avision DR321-Chip.jpg" style="width: 25%;">
 
 :-) 
