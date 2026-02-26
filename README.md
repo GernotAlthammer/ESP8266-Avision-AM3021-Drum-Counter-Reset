@@ -19,4 +19,6 @@ Note: I have
 
 <img src="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/blob/main/Pictures/Avision DR321-Chip.jpg" style="width: 25%;">
 
+Info: the same counter is used in Lexmark TN-1070 toner unit
+
 :-) 
