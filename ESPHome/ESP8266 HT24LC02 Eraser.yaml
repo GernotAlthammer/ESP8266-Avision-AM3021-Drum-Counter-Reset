@@ -27,24 +27,37 @@ button:
 
             ESP_LOGI("eeprom", "DR321 Starting EEPROM dump...");
 
-            for (int addr = 0; addr < 256; addr++) {
-              addr_buf[0] = addr;
+            // Pretty hex dump formatting
+            char line[64];
 
-              // Write memory address pointer
-              auto err = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
-              if (err != esphome::i2c::ERROR_OK) {
-                ESP_LOGE("eeprom", "Address write failed at 0x%02X (err=%d)", addr, err);
-                continue;
+            for (int base = 0; base < 256; base += 16) {
+              sprintf(line, "%02X: ", base);
+
+              for (int offset = 0; offset < 16; offset++) {
+                int addr = base + offset;
+
+                addr_buf[0] = addr;
+
+                // Set memory pointer
+                auto err1 = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
+                if (err1 != esphome::i2c::ERROR_OK) {
+                  ESP_LOGE("eeprom", "Write pointer failed at 0x%02X (err=%d)", addr, err1);
+                  data_buf[0] = 0x00;  // unreadable
+                } else {
+                  // Read 1 byte
+                  auto err2 = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
+                  if (err2 != esphome::i2c::ERROR_OK) {
+                    ESP_LOGE("eeprom", "Read failed at 0x%02X (err=%d)", addr, err2);
+                    data_buf[0] = 0x00;
+                  }
+                }
+
+                char tmp[4];
+                sprintf(tmp, "%02X ", data_buf[0]);
+                strcat(line, tmp);
               }
 
-              // Read 1 byte
-              err = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
-              if (err != esphome::i2c::ERROR_OK) {
-                ESP_LOGE("eeprom", "DR321 Read failed at 0x%02X (err=%d)", addr, err);
-                continue;
-              }
-
-              ESP_LOGI("eeprom", "0x%02X: 0x%02X", addr, data_buf[0]);
+              ESP_LOGI("eeprom", "%s", line);
             }
 
             ESP_LOGI("eeprom", "DR321 EEPROM dump complete.");
@@ -90,24 +103,37 @@ button:
 
             ESP_LOGI("eeprom", "TN321 Starting EEPROM dump...");
 
-            for (int addr = 0; addr < 256; addr++) {
-              addr_buf[0] = addr;
+            // Pretty hex dump formatting
+            char line[64];
 
-              // Write memory address pointer
-              auto err = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
-              if (err != esphome::i2c::ERROR_OK) {
-                ESP_LOGE("eeprom", "Address write failed at 0x%02X (err=%d)", addr, err);
-                continue;
+            for (int base = 0; base < 256; base += 16) {
+              sprintf(line, "%02X: ", base);
+
+              for (int offset = 0; offset < 16; offset++) {
+                int addr = base + offset;
+
+                addr_buf[0] = addr;
+
+                // Set memory pointer
+                auto err1 = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
+                if (err1 != esphome::i2c::ERROR_OK) {
+                  ESP_LOGE("eeprom", "Write pointer failed at 0x%02X (err=%d)", addr, err1);
+                  data_buf[0] = 0x00;  // unreadable
+                } else {
+                  // Read 1 byte
+                  auto err2 = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
+                  if (err2 != esphome::i2c::ERROR_OK) {
+                    ESP_LOGE("eeprom", "Read failed at 0x%02X (err=%d)", addr, err2);
+                    data_buf[0] = 0x00;
+                  }
+                }
+
+                char tmp[4];
+                sprintf(tmp, "%02X ", data_buf[0]);
+                strcat(line, tmp);
               }
 
-              // Read 1 byte
-              err = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
-              if (err != esphome::i2c::ERROR_OK) {
-                ESP_LOGE("eeprom", "TN321 Read failed at 0x%02X (err=%d)", addr, err);
-                continue;
-              }
-
-              ESP_LOGI("eeprom", "0x%02X: 0x%02X", addr, data_buf[0]);
+              ESP_LOGI("eeprom", "%s", line);
             }
 
             ESP_LOGI("eeprom", "TN321 EEPROM dump complete.");
