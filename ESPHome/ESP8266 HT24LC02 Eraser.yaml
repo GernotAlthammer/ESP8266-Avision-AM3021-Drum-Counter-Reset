@@ -77,14 +77,14 @@ button:
 
             ESP_LOGI("eeprom", "DR321 EEPROM erase complete!");
 
-  #### Button for Reading the Toner TN321 I²C EEPROM HT24LC02 Address 0x56
+  #### Button for Reading the Toner TN321 I²C EEPROM HT24LC02 Address 0x52
   - platform: template
     name: "Read TN321 HT24LC02"
     id: read_tn_eeprom
     on_press:
       then:
         - lambda: |-
-            const uint8_t EEPROM_ADDR = 0x56;
+            const uint8_t EEPROM_ADDR = 0x52;
             uint8_t addr_buf[1];
             uint8_t data_buf[1];
 
@@ -113,14 +113,14 @@ button:
             ESP_LOGI("eeprom", "TN321 EEPROM dump complete.");
 
 
-  #### Button for Erasing the Toner I²C EEPROM HT24LC02 Address 0x56
+  #### Button for Erasing the Toner I²C EEPROM HT24LC02 Address 0x52
   - platform: template
     name: "Erase TN321 HT24LC02"
     id: erase_tn_eeprom
     on_press:
       then:
         - lambda: |-
-            const uint8_t EEPROM_ADDR = 0x56;
+            const uint8_t EEPROM_ADDR = 0x52;
             uint8_t buf[9];  // 1 byte address + 8 bytes data
 
             ESP_LOGI("eeprom", "TN321 Starting EEPROM erase...");
