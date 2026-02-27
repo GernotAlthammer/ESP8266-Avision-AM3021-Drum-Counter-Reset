@@ -14,19 +14,52 @@ i2c:
 logger:
 
 button:
+  #### Button for Reading the Drum-Counter I²C EEPROM HT24LC02 Addresse 0x50
   - platform: template
-    name: "Erase HT24LC02 EEPROM"
-    id: erase_eeprom
+    name: "Read DR321 HT24LC02"
+    id: read_dr_eeprom
+    on_press:
+      then:
+        - lambda: |-
+            const uint8_t EEPROM_ADDR = 0x50;
+            uint8_t addr_buf[1];
+            uint8_t data_buf[1];
+
+            ESP_LOGI("eeprom", "DR321 Starting EEPROM dump...");
+
+            for (int addr = 0; addr < 256; addr++) {
+              addr_buf[0] = addr;
+
+              // Write memory address pointer
+              auto err = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "Address write failed at 0x%02X (err=%d)", addr, err);
+                continue;
+              }
+
+              // Read 1 byte
+              err = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "DR321 Read failed at 0x%02X (err=%d)", addr, err);
+                continue;
+              }
+
+              ESP_LOGI("eeprom", "0x%02X: 0x%02X", addr, data_buf[0]);
+            }
+
+            ESP_LOGI("eeprom", "DR321 EEPROM dump complete.");
+
+  #### Button for Erasing the Drum-Counter I²C EEPROM HT24LC02 Addresse 0x50
   - platform: template
-    name: "Erase HT24LC02"
-    id: erase_eeprom
+    name: "Erase DR321 HT24LC02"
+    id: erase_dr_eeprom
     on_press:
       then:
         - lambda: |-
             const uint8_t EEPROM_ADDR = 0x50;
             uint8_t buf[9];  // 1 byte address + 8 bytes data
 
-            ESP_LOGI("eeprom", "Starting EEPROM erase...");
+            ESP_LOGI("eeprom", "DR321 Starting EEPROM erase...");
 
             for (int addr = 0; addr < 256; addr += 8) {
               buf[0] = addr;        // memory address
@@ -34,7 +67,7 @@ button:
 
               auto err = id(i2c_bus).write(EEPROM_ADDR, buf, sizeof(buf));
               if (err != esphome::i2c::ERROR_OK) {
-                ESP_LOGE("eeprom", "Write failed at 0x%02X (err=%d)", addr, err);
+                ESP_LOGE("eeprom", "DR321 Write failed at 0x%02X (err=%d)", addr, err);
               } else {
                 ESP_LOGI("eeprom", "Erased page at 0x%02X", addr);
               }
@@ -42,5 +75,70 @@ button:
               delay(6);  // write cycle time
             }
 
-            ESP_LOGI("eeprom", "EEPROM erase complete!");
+            ESP_LOGI("eeprom", "DR321 EEPROM erase complete!");
+
+  #### Button for Reading the Toner TN321 I²C EEPROM HT24LC02 Address 0x56
+  - platform: template
+    name: "Read TN321 HT24LC02"
+    id: read_tn_eeprom
+    on_press:
+      then:
+        - lambda: |-
+            const uint8_t EEPROM_ADDR = 0x56;
+            uint8_t addr_buf[1];
+            uint8_t data_buf[1];
+
+            ESP_LOGI("eeprom", "TN321 Starting EEPROM dump...");
+
+            for (int addr = 0; addr < 256; addr++) {
+              addr_buf[0] = addr;
+
+              // Write memory address pointer
+              auto err = id(i2c_bus).write(EEPROM_ADDR, addr_buf, 1);
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "Address write failed at 0x%02X (err=%d)", addr, err);
+                continue;
+              }
+
+              // Read 1 byte
+              err = id(i2c_bus).read(EEPROM_ADDR, data_buf, 1);
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "TN321 Read failed at 0x%02X (err=%d)", addr, err);
+                continue;
+              }
+
+              ESP_LOGI("eeprom", "0x%02X: 0x%02X", addr, data_buf[0]);
+            }
+
+            ESP_LOGI("eeprom", "TN321 EEPROM dump complete.");
+
+
+  #### Button for Erasing the Toner I²C EEPROM HT24LC02 Address 0x56
+  - platform: template
+    name: "Erase TN321 HT24LC02"
+    id: erase_tn_eeprom
+    on_press:
+      then:
+        - lambda: |-
+            const uint8_t EEPROM_ADDR = 0x56;
+            uint8_t buf[9];  // 1 byte address + 8 bytes data
+
+            ESP_LOGI("eeprom", "TN321 Starting EEPROM erase...");
+
+            for (int addr = 0; addr < 256; addr += 8) {
+              buf[0] = addr;        // memory address
+              for (int i = 1; i < 9; i++) buf[i] = 0x00;  // page data
+
+              auto err = id(i2c_bus).write(EEPROM_ADDR, buf, sizeof(buf));
+              if (err != esphome::i2c::ERROR_OK) {
+                ESP_LOGE("eeprom", "TN321 Write failed at 0x%02X (err=%d)", addr, err);
+              } else {
+                ESP_LOGI("eeprom", "Erased page at 0x%02X", addr);
+              }
+
+              delay(6);  // write cycle time
+            }
+
+            ESP_LOGI("eeprom", "TN321 EEPROM erase complete!");
+
 
