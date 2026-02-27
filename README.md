@@ -11,7 +11,7 @@ The ESPHome code:
 - works on any ESP8266 (NodeMCU, Wemos D1 mini, etc.)
 - uses D1 = SCL and D2 = SDA (the usual ESPHome defaults)
 - adds buttons in Home Assistant to trigger the read or erase
-- reads EEPROM of DR321 from address 0x50 and EEPROM of TN321 from address 0x56
+- reads EEPROM of DR321 from address 0x50 and EEPROM of TN321 from address 0x52
 - writes 0x00 in 8‑byte pages (fastest + correct for 24LC02)
 - logs progress in ESPHome logs
 
