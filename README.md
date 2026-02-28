@@ -30,7 +30,6 @@ Note: For the DR321 Drum-Counter PCB i have
 
 <img src="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/blob/main/Pictures/Avision DR321-Chip.jpg" style="width: 35%;">
 
-Info: the same counter is used in Lexmark TN-1070 toner unit
 
 Note: For the TN321 Toner-Counter PCB i have connected the wires directly to the PCB contact pads
 - GND/VSS to Pad TP1
