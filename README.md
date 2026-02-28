@@ -1,11 +1,14 @@
 # ESP8266 Avision AM3021 Drum-Counter / Toner-Counter Reset
 
-Read and Reset for Avision AM3021 Laser Printer with ESP8266 ESPHome
+Read and Write EEPROM Data for Avision AM3021 Laser Printer with ESP8266 ESPHome
 - for the DR321 Drum-Counter
 - for the TN321 Toner-Counter 
 
 With der YAML code in the folder <a href="https://github.com/GernotAlthammer/ESP8266-Avision-AM3021-Drum-Counter-Reset/tree/main/ESPHome" rel="nofollow">ESPHome</a> for ES8266 the EEPROM chip HT24LC02 of the Drum-Unit or the Toner-Unit can be re-programmed.
-This sets the counter back to the state of health level of 100%. - like a brand new part :-)
+
+This sets the counter back to the state of health level
+- for the Drum-Unit to 99%
+- for the Toner-Unit to 69%
 
 The ESPHome code:
 - works on any ESP8266 (NodeMCU, Wemos D1 mini, etc.)
